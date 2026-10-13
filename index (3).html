@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consumo de APIs e DOM dinâmico</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      color: #222;
+      background: #f4f6f8;
+    }
+    header {
+      background: #1f3a5f;
+      color: #fff;
+      padding: 1.25rem 1rem;
+      text-align: center;
+    }
+    header h1 { margin: 0; font-size: 1.6rem; }
+    main {
+      max-width: 680px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+    section {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+    }
+    h2 { margin-top: 0; color: #1f3a5f; font-size: 1.25rem; }
+    h3 { color: #1f3a5f; font-size: 1.05rem; margin-bottom: .25rem; }
+
+    form { display: flex; flex-wrap: wrap; gap: .5rem; align-items: flex-end; }
+    .campo { display: flex; flex-direction: column; gap: .25rem; flex: 1 1 200px; }
+    label { font-weight: bold; font-size: .95rem; color: #1f3a5f; }
+    input[type="text"] {
+      padding: .6rem .75rem;
+      border: 1px solid #9fb0c6;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    input[type="text"]:focus {
+      outline: 3px solid rgba(44, 82, 130, .35);
+      border-color: #2c5282;
+    }
+    button {
+      padding: .65rem 1.25rem;
+      background: #2f855a;
+      color: #fff;
+      border: 0;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover:not(:disabled) { background: #276749; }
+    button:disabled { background: #9aa5b1; cursor: not-allowed; }
+
+    /* Estados da tela */
+    .status { min-height: 1.5rem; margin: .75rem 0 0; font-weight: bold; }
+    .status.carregando { color: #2c5282; }
+    .status.erro { color: #c53030; }
+    .status.vazio { color: #b7791f; }
+
+    dl { margin: .75rem 0 0; }
+    dt { font-weight: bold; color: #1f3a5f; margin-top: .5rem; }
+    dd { margin: 0 0 0 1rem; }
+
+    #pokemon-resultado img { display: block; width: 120px; height: 120px; image-rendering: pixelated; }
+    ul { padding-left: 1.25rem; }
+    .vazio-lista { color: #666; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Consumo de APIs e DOM dinâmico</h1>
+  </header>
+
+  <main>
+    <!-- PARTE 1 -->
+    <section aria-labelledby="titulo-pedidos">
+      <h2 id="titulo-pedidos">Parte 1 – Pedidos (validação e faturamento)</h2>
+      <p>Pedidos válidos e pagos (veja também o Console, F12):</p>
+      <ul id="pedidos-lista"></ul>
+      <p id="pedidos-total"></p>
+    </section>
+
+    <!-- PARTE 2 -->
+    <section aria-labelledby="titulo-cep">
+      <h2 id="titulo-cep">Parte 2 – Buscador de CEP</h2>
+      <form id="form-cep" novalidate>
+        <div class="campo">
+          <label for="cep">CEP (8 números)</label>
+          <input type="text" id="cep" name="cep" inputmode="numeric"
+                 placeholder="01001000" autocomplete="off">
+        </div>
+        <button type="submit" id="btn-cep">Buscar</button>
+      </form>
+      <p id="status-cep" class="status" role="status" aria-live="polite"></p>
+      <dl id="resultado-cep"></dl>
+
+      <h3>Histórico de buscas</h3>
+      <ul id="historico-cep"></ul>
+    </section>
+
+    <!-- PARTE 3 -->
+    <section aria-labelledby="titulo-pokedex">
+      <h2 id="titulo-pokedex">Parte 3 – Mini Pokédex</h2>
+      <form id="form-pokemon" novalidate>
+        <div class="campo">
+          <label for="pokemon-nome">Nome do Pokémon</label>
+          <input type="text" id="pokemon-nome" name="pokemon" placeholder="pikachu" autocomplete="off">
+        </div>
+        <button type="submit" id="btn-pokemon">Buscar</button>
+      </form>
+      <p id="status-pokemon" class="status" role="status" aria-live="polite"></p>
+      <div id="pokemon-resultado"></div>
+    </section>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
